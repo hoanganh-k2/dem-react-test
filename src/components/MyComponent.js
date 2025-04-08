@@ -1,19 +1,25 @@
 import React from "react";
-import UserInfor from "./UserInfor";
+import AddUserInfor from "./AddUserInfor";
 import DisplayInfor from "./DisplayInfor";
 
 class MyComponent extends React.Component {
     state = {
         listUser: [
-            { id: 1, name: "Hoang Anh", age: 30 },
+            { id: 1, name: "Hoang Anh", age: 13 },
             { id: 2, name: "Anh", age: 26 },
             { id: 3, name: "Hoang", age: 23 },
         ],
     };
+    addUser = (arrObj) => {
+        this.setState({
+            listUser: [arrObj, ...this.state.listUser],
+        });
+    };
+
     render() {
         return (
             <div>
-                <UserInfor></UserInfor>
+                <AddUserInfor addUser={this.addUser}></AddUserInfor>
                 <br></br>
                 <br />
                 <DisplayInfor listUser={this.state.listUser}></DisplayInfor>
