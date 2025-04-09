@@ -3,9 +3,29 @@ import "./DisplayInfor.scss";
 import logo from "./../logo.svg";
 
 class DisplayInfor extends React.Component {
-    state = {
-        isShowList: true,
-    };
+    constructor(props) {
+        console.log(">>> call me constructor");
+        super(props);
+        this.state = {
+            isShowList: true,
+        };
+    }
+
+    componentDidMount() {
+        console.log(">>> call me component did mount");
+        setTimeout(() => {
+            document.title = "Chicken 2k9";
+        }, 3000);
+    }
+
+    componentDidUpdate(preProps, preState, snapshot) {
+        console.log(">>> call me component did update", this.props, preProps);
+        if (this.props.listUser !== preProps.listUser) {
+            if (this.props.listUser.length === 5) {
+                alert("we got 5 users");
+            }
+        }
+    }
 
     handleShowHide = () => {
         this.setState({
@@ -13,6 +33,7 @@ class DisplayInfor extends React.Component {
         });
     };
     render() {
+        console.log(">>> call me render");
         // destructuring array/object
         const { listUser } = this.props;
 
