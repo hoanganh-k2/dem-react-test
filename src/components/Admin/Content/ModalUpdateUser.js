@@ -31,7 +31,6 @@ const ModalUpdateUser = (props) => {
   const [previewImage, setPreviewImage] = useState("");
 
   useEffect(() => {
-    console.log(dataUpdate);
     if (!_.isEmpty(dataUpdate)) {
       setEmail(dataUpdate.email);
       setUserName(dataUpdate.username);
@@ -58,7 +57,8 @@ const ModalUpdateUser = (props) => {
     if (data && data.EC === 0) {
       toast.success(data.EM);
       handleClose();
-      await props.fetchListUser();
+      // await props.fetchListUser();
+      await props.fetchListUserPaginate(props.currentPage);
     }
 
     if (data && data.EC !== 0) {
