@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Select from "react-select";
 import { FiPlusCircle } from "react-icons/fi";
 import { FiMinusCircle } from "react-icons/fi";
@@ -6,16 +6,16 @@ import { RiImageAddFill } from "react-icons/ri";
 import { v4 as uuidv4 } from "uuid";
 import _ from "lodash";
 import "./Questions.scss";
+import Lightbox from "react-awesome-lightbox";
+import {
+  getAllQuizForAdmin,
+  postCreateNewQuestionForQuiz,
+  postCreateNewAnswerForQuestion,
+} from "../../../../services/apiService";
+import { toast } from "react-toastify";
 
 const Questions = (props) => {
-  const options = [
-    { value: "EASY", label: "EASY" },
-    { value: "MEDIUM", label: "MEDIUM" },
-    { value: "HARD", label: "HARD" },
-  ];
-  const [selectedQuiz, setSelectedQuiz] = useState();
-
-  const [questions, setQuestions] = useState([
+  const initQuestion = [
     {
       id: uuidv4(),
       description: "",
@@ -29,7 +29,34 @@ const Questions = (props) => {
         },
       ],
     },
-  ]);
+  ];
+  const [selectedQuiz, setSelectedQuiz] = useState({});
+  const [isPreviewImage, setIsPreviewImage] = useState(false);
+  const [dataPreviewImage, setDataPreviewImage] = useState({
+    url: "",
+    title: "",
+  });
+
+  const [questions, setQuestions] = useState(initQuestion);
+
+  const [listQuiz, setListQuiz] = useState([]);
+
+  useEffect(() => {
+    fetchTableQuiz();
+  }, []);
+
+  const fetchTableQuiz = async () => {
+    let res = await getAllQuizForAdmin();
+    if (res && res.EC === 0) {
+      let newQuiz = res.DT.map((item) => {
+        return {
+          value: item.id,
+          label: `${item.id} - ${item.description}`,
+        };
+      });
+      setListQuiz(newQuiz);
+    }
+  };
 
   const handleAddRemoveQuestion = (type, id) => {
     if (type === "ADD") {
@@ -126,8 +153,87 @@ const Questions = (props) => {
     }
   };
 
-  const handleSubmitQuestionForQuiz = () => {
-    console.log(questions);
+  const handlePreviewImage = (questionId) => {
+    let questionClone = _.cloneDeep(questions);
+    let index = questionClone.findIndex((item) => item.id === questionId);
+    if (index > -1) {
+      setDataPreviewImage({
+        url: URL.createObjectURL(questionClone[index].imageFile),
+        title: questionClone[index].imageName,
+      });
+      setIsPreviewImage(true);
+    }
+  };
+
+  const handleSubmitQuestionForQuiz = async () => {
+    //todo
+    if (_.isEmpty(selectedQuiz)) {
+      toast.error("Not empty quiz");
+      return;
+    }
+
+    //validate answer
+    let isValidA = true;
+    let indexQ = 0,
+      indexA = 0;
+    for (let i = 0; i < questions.length; i++) {
+      for (let j = 0; j < questions[i].answer.length; j++) {
+        if (!questions[i].answer[j].description) {
+          isValidA = false;
+          indexA = j;
+          break;
+        }
+      }
+      if (isValidA === false) {
+        indexQ = i;
+        break;
+      }
+    }
+
+    if (isValidA === false) {
+      toast.error(
+        `Not empty description answer ${indexA + 1} at ${indexQ + 1}`
+      );
+      return;
+    }
+
+    //validate question
+    let isValidQ = true;
+    let indexQ1 = 0;
+    for (let i = 0; i < questions.length; i++) {
+      if (!questions[i].description) {
+        isValidQ = false;
+        indexQ1 = i;
+        break;
+      }
+    }
+
+    if (isValidQ === false) {
+      toast.error(`Not empty description question ${indexQ1 + 1}`);
+      return;
+    }
+
+    await Promise.all(
+      questions.map(async (question) => {
+        const q = await postCreateNewQuestionForQuiz(
+          +selectedQuiz.value,
+          question.description,
+          question.imageFile
+        );
+        await Promise.all(
+          question.answer.map(async (answer) => {
+            await postCreateNewAnswerForQuestion(
+              answer.description,
+              answer.isCorrect,
+              q.DT.id
+            );
+          })
+        );
+      })
+    );
+
+    toast.success("Create questions succeed!");
+    setQuestions(initQuestion);
   };
 
   return (
@@ -140,7 +246,7 @@ const Questions = (props) => {
           <Select
             defaultValue={selectedQuiz}
             onChange={setSelectedQuiz}
-            options={options}
+            options={listQuiz}
           />
         </div>
         <div className="mt-3 mb-2">Add question:</div>
@@ -150,10 +256,10 @@ const Questions = (props) => {
             return (
               <div key={`q-${index}`} className="q-main mb-3">
                 <div className="question-content">
-                  <div class="form-floating description">
+                  <div className="form-floating description">
                     <input
                       type="type"
-                      class="form-control"
+                      className="form-control"
                       placeholder="Description"
                       value={question.description}
                       onChange={(event) =>
@@ -179,9 +285,16 @@ const Questions = (props) => {
                       hidden
                     ></input>
                     <span>
-                      {question.imageName
-                        ? question.imageName
-                        : "0 file is uploaded"}
+                      {question.imageName ? (
+                        <span
+                          style={{ cursor: "pointer" }}
+                          onClick={() => handlePreviewImage(question.id)}
+                        >
+                          {question.imageName}
+                        </span>
+                      ) : (
+                        "0 file is uploaded"
+                      )}
                     </span>
                   </div>
                   <div className="btn-add">
@@ -221,10 +334,10 @@ const Questions = (props) => {
                             )
                           }
                         />
-                        <div class="form-floating description answer-name">
+                        <div className="form-floating description answer-name">
                           <input
                             type="type"
-                            class="form-control"
+                            className="form-control"
                             placeholder="Answer"
                             value={answer.description}
                             onChange={(event) =>
@@ -278,6 +391,13 @@ const Questions = (props) => {
           </div>
         )}
       </div>
+      {isPreviewImage === true && (
+        <Lightbox
+          image={dataPreviewImage.url}
+          title={dataPreviewImage.title}
+          onClose={() => setIsPreviewImage(false)}
+        ></Lightbox>
+      )}
     </div>
   );
 };
