@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { doLogin } from "../../redux/action/userAction";
 import { ImSpinner10 } from "react-icons/im";
+import Language from "../Header/Language";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -65,6 +66,7 @@ const Login = () => {
         >
           Sign up
         </button>
+        <Language />
       </div>
       <div className="title col-4 mx-auto">HoiDanIT</div>
       <div className="welcome col-4 mx-auto">Hello, who's this ?</div>
