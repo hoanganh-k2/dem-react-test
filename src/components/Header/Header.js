@@ -8,8 +8,11 @@ import { logOut } from "../../services/apiService";
 import { doLogOut } from "../../redux/action/userAction";
 import { toast } from "react-toastify";
 import Language from "./Language";
+import Profile from "./Profile";
+import { useState } from "react";
 
 const Header = () => {
+  const [showModalProfile, setShowModalProfile] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogin = () => {
@@ -33,48 +36,53 @@ const Header = () => {
   };
 
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
-      <Container>
-        {/* <Navbar.Brand href="#home">Hỏi dân IT</Navbar.Brand> */}
-        <NavLink to="/" className="navbar-brand">
-          Hỏi dân IT
-        </NavLink>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <NavLink to="/" className="nav-link">
-              Home
-            </NavLink>
-            <NavLink to="/users" className="nav-link">
-              User
-            </NavLink>
-            <NavLink to="/admins" className="nav-link">
-              Admin
-            </NavLink>
-          </Nav>
-          <Nav>
-            {isAuthenticated === false ? (
-              <>
-                <button className="btn-login" onClick={() => handleLogin()}>
-                  Log in
-                </button>
-                <button className="btn-signup" onClick={() => handleSignUp()}>
-                  Sign up
-                </button>
-              </>
-            ) : (
-              <NavDropdown title="Setting" id="basic-nav-dropdown">
-                <NavDropdown.Item>Profile</NavDropdown.Item>
-                <NavDropdown.Item onClick={() => handleLogOut()}>
-                  Log Out
-                </NavDropdown.Item>
-              </NavDropdown>
-            )}
-            <Language />
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+    <>
+      <Navbar expand="lg" className="bg-body-tertiary">
+        <Container>
+          {/* <Navbar.Brand href="#home">Hỏi dân IT</Navbar.Brand> */}
+          <NavLink to="/" className="navbar-brand">
+            Hỏi dân IT
+          </NavLink>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              <NavLink to="/" className="nav-link">
+                Home
+              </NavLink>
+              <NavLink to="/users" className="nav-link">
+                User
+              </NavLink>
+              <NavLink to="/admins" className="nav-link">
+                Admin
+              </NavLink>
+            </Nav>
+            <Nav>
+              {isAuthenticated === false ? (
+                <>
+                  <button className="btn-login" onClick={() => handleLogin()}>
+                    Log in
+                  </button>
+                  <button className="btn-signup" onClick={() => handleSignUp()}>
+                    Sign up
+                  </button>
+                </>
+              ) : (
+                <NavDropdown title="Setting" id="basic-nav-dropdown">
+                  <NavDropdown.Item onClick={() => setShowModalProfile(true)}>
+                    Profile
+                  </NavDropdown.Item>
+                  <NavDropdown.Item onClick={() => handleLogOut()}>
+                    Log Out
+                  </NavDropdown.Item>
+                </NavDropdown>
+              )}
+              <Language />
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+      <Profile show={showModalProfile} setShow={setShowModalProfile} />
+    </>
   );
 };
 

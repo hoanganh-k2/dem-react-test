@@ -1,7 +1,10 @@
 {
   "homepage": {
-    "title1": "Có nhiều cách để hỏihỏi",
+    "title1": "Có nhiều cách để hỏi",
     "title2": "Không biết thì google",
-    "title3": "Hãy bắt đầu. Nó miễn phí"
+    "title3": {
+      "doing": "Làm bài ngay",
+      "login": "Bắt đầu. Nó miễn phí"
+    }
   }
 }

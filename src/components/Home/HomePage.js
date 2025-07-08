@@ -23,8 +23,7 @@ const HomePage = (props) => {
                 navigate("/users");
               }}
             >
-              {" "}
-              Do quiz now
+              {t("homepage.title3.doing")}
             </button>
           ) : (
             <button
@@ -32,7 +31,7 @@ const HomePage = (props) => {
                 navigate("/login");
               }}
             >
-              Get's started. It's free
+              {t("homepage.title3.doing")}
             </button>
           )}
         </div>
