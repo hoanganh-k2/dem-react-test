@@ -9,8 +9,11 @@ import { ImSpinner10 } from "react-icons/im";
 import Language from "../Header/Language";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const isDemoMode =
+    process.env.REACT_APP_DEMO_MODE === "true" ||
+    !process.env.REACT_APP_API_URL;
+  const [email, setEmail] = useState(isDemoMode ? "admin@demo.com" : "");
+  const [password, setPassword] = useState(isDemoMode ? "123456" : "");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -69,7 +72,9 @@ const Login = () => {
         <Language />
       </div>
       <div className="title col-4 mx-auto">HoiDanIT</div>
-      <div className="welcome col-4 mx-auto">Hello, who's this ?</div>
+      <div className="welcome col-4 mx-auto">
+        {isDemoMode ? "Demo mode is ready" : "Hello, who's this ?"}
+      </div>
       <div className="content-form col-4 mx-auto">
         <div className="form-group">
           <label>Email</label>

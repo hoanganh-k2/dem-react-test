@@ -1,209 +1,191 @@
-# Hệ Thống Quiz Online - Ứng Dụng Web Full Stack
+# Frontend React Quiz App
 
-Hệ thống quản lý bài thi trắc nghiệm trực tuyến hoàn chỉnh được xây dựng bằng React và Node.js, bao gồm trang quản trị, xác thực người dùng và chức năng làm bài thi thời gian thực.
+Frontend React cho he thong quiz online, gom trang user lam bai quiz, trang admin quan ly user/quiz/cau hoi, dang nhap, profile, dashboard va lich su lam bai.
 
-## Mục Lục
-- [Tính Năng](#tính-năng)
-- [Công Nghệ Sử Dụng](#công-nghệ-sử-dụng)
-- [Yêu Cầu Hệ Thống](#yêu-cầu-hệ-thống)
-- [Cài Đặt](#cài-đặt)
-- [Sử Dụng](#sử-dụng)
-- [Cấu Trúc Dự Án](#cấu-trúc-dự-án)
-- [Tích Hợp API](#tích-hợp-api)
+Project co san demo mode de deploy va trinh dien tren Vercel ngay ca khi chua co backend.
 
-## Tính Năng
+## Tinh Nang
 
-### Tính Năng Dành Cho User
-- Xác thực người dùng (Đăng nhập/Đăng ký) với JWT
-- Làm bài thi với bộ đếm thời gian ngược
-- Xem kết quả chi tiết sau khi hoàn thành
-- Quản lý thông tin cá nhân (upload avatar, cập nhật thông tin, đổi mật khẩu)
-- Theo dõi lịch sử làm bài
-- Hỗ trợ đa ngôn ngữ (Tiếng Việt/English)
+- Dang nhap, dang ky va luu trang thai dang nhap bang Redux Persist
+- Trang user xem danh sach quiz va lam bai quiz
+- Trang admin quan ly user, quiz, cau hoi/dap an va gan quiz cho user
+- Dashboard thong ke so user, quiz, cau hoi va dap an
+- Profile, doi mat khau va lich su lam bai
+- Ho tro routing voi React Router
+- Demo mode dung mock data khi chua co backend
+- Cau hinh san cho Vercel SPA routing bang `vercel.json`
 
-### Tính Năng Dành Cho Admin
-- Quản lý Quiz đầy đủ (Thêm/Sửa/Xóa)
-- Quản lý câu hỏi và đáp án có hỗ trợ upload hình ảnh
-- Phân công bài thi cho người dùng cụ thể
-- Quản lý danh sách người dùng
-- Dashboard thống kê và báo cáo
-- Phân quyền dựa trên vai trò
+## Cong Nghe
 
-## Công Nghệ Sử Dụng
+- React 18
+- React Router v6
+- Redux, Redux Thunk, Redux Persist
+- React Bootstrap, Bootstrap, SCSS
+- Axios
+- React Toastify
+- React Select
+- React Paginate
+- Recharts
+- i18next
 
-### Frontend
-- React 18.2.0
-- Redux + Redux Thunk để quản lý state
-- React Router v6 cho routing
-- React Bootstrap + SCSS cho styling
-- Axios cho HTTP requests
-- i18next cho đa ngôn ngữ
-- React Toastify cho thông báo
-- Lodash cho các hàm tiện ích
-- Recharts cho biểu đồ và trực quan hóa dữ liệu
-- React Select cho dropdown nâng cao
-- React Paginate cho phân trang
+## Yeu Cau
 
-### Tích Hợp Backend
-- RESTful API
-- JWT Authentication
-- FormData cho upload file
-- Base64 encoding cho hình ảnh
+- Node.js 16+ khuyen dung
+- npm
 
-## Yêu Cầu Hệ Thống
+Project co package cu `react-awesome-lightbox` khai bao peer dependency cho React 16/17, nen repo da co `.npmrc` voi:
 
-Trước khi bắt đầu, đảm bảo bạn đã cài đặt:
-- Node.js v14.17.0 trở lên
-- npm hoặc yarn package manager
-- Backend API server đang chạy (cần thiết cho đầy đủ chức năng)
-
-## Cài Đặt
-
-1. Clone repository:
-```bash
-git clone <repository-url>
-cd React
+```text
+legacy-peer-deps=true
 ```
 
-2. Cài đặt dependencies:
+Nho do `npm install` co the chay on voi React 18.
+
+## Cai Dat Local
+
 ```bash
 npm install
-```
-
-3. Tạo file environment variables:
-```bash
 cp .env.example .env
+npm start
 ```
 
-4. Cấu hình environment variables:
+Mo ung dung tai:
+
+```text
+http://localhost:3000
 ```
-REACT_APP_API_URL=http://localhost:8081
-REACT_APP_BACKEND_URL=http://localhost:8081
+
+## Demo Mode Khong Can Backend
+
+Neu chua co backend, bat demo mode trong `.env`:
+
+```text
+REACT_APP_DEMO_MODE=true
 ```
 
-## Sử Dụng
+Khi demo mode bat, app se dung mock data trong `src/services/apiService.js`. Cac luong chinh nhu login, danh sach quiz, lam quiz, dashboard va admin co the thao tac duoc trong phien hien tai.
 
-### Chế Độ Development
+Tai khoan demo:
 
-Chạy ứng dụng ở chế độ development:
+```text
+Email: admin@demo.com
+Password: 123456
+```
+
+Trang login se tu dien san thong tin nay khi app dang chay demo mode.
+
+## Ket Noi Backend That
+
+Khi co backend that, tat demo mode va cau hinh API URL:
+
+```text
+REACT_APP_DEMO_MODE=false
+REACT_APP_API_URL=https://your-backend-domain.com/
+REACT_APP_BACKEND_URL=https://your-backend-domain.com/
+```
+
+Neu chay backend local:
+
+```text
+REACT_APP_API_URL=http://localhost:8081/
+REACT_APP_BACKEND_URL=http://localhost:8081/
+```
+
+Luu y: khong dung `localhost` khi deploy len Vercel, vi browser cua nguoi dung se goi localhost tren may cua ho.
+
+## Deploy Len Vercel
+
+Trong man hinh import project cua Vercel:
+
+```text
+Framework Preset: Create React App
+Root Directory: ./
+Install Command: npm install
+Build Command: npm run build
+Output Directory: build
+```
+
+Neu chua co backend, them Environment Variable:
+
+```text
+REACT_APP_DEMO_MODE=true
+```
+
+Neu da co backend, them:
+
+```text
+REACT_APP_DEMO_MODE=false
+REACT_APP_API_URL=https://your-backend-domain.com/
+REACT_APP_BACKEND_URL=https://your-backend-domain.com/
+```
+
+File `vercel.json` da duoc them de React Router khong bi 404 khi refresh cac route nhu `/login`, `/users`, `/admins/manage-user` hoac `/quiz/1`.
+
+## Scripts
+
 ```bash
 npm start
 ```
-Mở [http://localhost:3000](http://localhost:3000) để xem trong trình duyệt.
 
-Trang sẽ tự động reload khi bạn thay đổi code. Bạn cũng có thể thấy các lỗi lint trong console.
+Chay app o development mode.
 
-### Build Production
-
-Build ứng dụng cho production:
 ```bash
 npm run build
 ```
 
-Build ứng dụng cho production vào thư mục `build`. Nó sẽ bundle React ở chế độ production và tối ưu hóa build để có hiệu suất tốt nhất.
+Build production vao thu muc `build`.
 
-Build được minify và tên file bao gồm hash. Ứng dụng của bạn đã sẵn sàng để deploy!
-
-### Testing
-
-Chạy test runner ở chế độ interactive watch:
 ```bash
 npm test
 ```
 
-## Cấu Trúc Dự Án
+Chay test runner cua Create React App.
 
-```
-React/
-├── public/
-│   ├── index.html
-│   ├── locales/         # File ngôn ngữ
-│   └── ...
-├── src/
-│   ├── assets/          # Hình ảnh, fonts và file tĩnh
-│   ├── components/      # Các React components
-│   │   ├── Admin/       # Components trang quản trị
-│   │   ├── Auth/        # Components đăng nhập/đăng ký
-│   │   ├── Header/      # Header và navigation
-│   │   ├── Home/        # Trang chủ
-│   │   ├── Route/       # Protected routes
-│   │   └── User/        # Components phía user
-│   ├── redux/           # Redux store và actions
-│   │   ├── action/      # Redux actions
-│   │   ├── reducer/     # Redux reducers
-│   │   └── store.js     # Store configuration
-│   ├── services/        # API service layer
-│   ├── utils/           # Utility functions
-│   ├── Layout.js        # Component layout chính
-│   ├── App.js           # Root component
-│   ├── App.scss         # Global styles
-│   └── index.js         # Entry point
-├── package.json
-└── README.md
+## Cau Truc Thu Muc
+
+```text
+public/
+  locales/              # File ngon ngu
+src/
+  assets/               # Anh, video va static assets
+  components/
+    Admin/              # Trang va component admin
+    Auth/               # Login, register
+    Header/             # Header, profile, language, history
+    Home/               # Trang chu
+    Route/              # PrivateRoute
+    User/               # Danh sach quiz, chi tiet quiz, cau hoi
+  redux/                # Store, reducer, action
+  services/             # API service va demo mock mode
+  utils/                # Axios config, i18n
+  App.js
+  Layout.js
+  index.js
 ```
 
-## Tích Hợp API
+## API Chinh Khi Dung Backend
 
-Ứng dụng tích hợp với backend API cho các thao tác sau:
+- `POST /api/v1/login`
+- `POST /api/v1/register`
+- `POST /api/v1/logout`
+- `GET /api/v1/quiz-by-participant`
+- `GET /api/v1/questions-by-quiz?quizId=:id`
+- `POST /api/v1/quiz-submit`
+- `GET /api/v1/quiz/all`
+- `POST /api/v1/quiz`
+- `PUT /api/v1/quiz`
+- `DELETE /api/v1/quiz/:id`
+- `GET /api/v1/participant/all`
+- `GET /api/v1/participant?page=:page&limit=:limit`
+- `POST /api/v1/participant`
+- `PUT /api/v1/participant`
+- `DELETE /api/v1/participant`
+- `POST /api/v1/quiz-upsert-qa`
+- `GET /api/v1/quiz-with-qa/:id`
+- `POST /api/v1/quiz-assign-to-user`
+- `GET /api/v1/overview`
+- `GET /api/v1/history`
 
-### Xác Thực
-- POST `/api/v1/login` - Đăng nhập
-- POST `/api/v1/register` - Đăng ký
-- POST `/api/v1/logout` - Đăng xuất
+## Ghi Chu
 
-### Quản Lý Quiz
-- GET `/api/v1/quiz/all` - Lấy tất cả quiz
-- POST `/api/v1/quiz` - Tạo quiz mới
-- PUT `/api/v1/quiz` - Cập nhật quiz
-- DELETE `/api/v1/quiz/:id` - Xóa quiz
-
-### Quản Lý Câu Hỏi
-- POST `/api/v1/quiz-upsert-qa` - Tạo/Cập nhật câu hỏi
-- GET `/api/v1/quiz-with-qa/:id` - Lấy quiz với câu hỏi
-
-### Quản Lý User
-- GET `/api/v1/participant/all` - Lấy tất cả user
-- POST `/api/v1/participant` - Tạo user
-- PUT `/api/v1/participant` - Cập nhật user
-- DELETE `/api/v1/participant` - Xóa user
-
-### Phân Công Quiz
-- POST `/api/v1/quiz-assign-to-user` - Phân công quiz cho user
-- POST `/api/v1/quiz-submit` - Nộp bài làm
-
-## Các Tính Năng Nổi Bật
-
-### Xác Thực & Phân Quyền
-- Xác thực dựa trên JWT token
-- Protected routes với authentication guards
-- Phân quyền dựa trên vai trò (Admin/User)
-
-### Quản Lý State
-- Redux cho quản lý state toàn cục
-- Redux Thunk cho các thao tác bất đồng bộ
-- Lưu trạng thái đăng nhập
-
-### Xử Lý Hình Ảnh
-- Preview ảnh trước khi upload
-- Base64 encoding để truyền qua API
-- Hỗ trợ nhiều định dạng ảnh
-
-### Tối Ưu Hiệu Suất
-- Code splitting và lazy loading
-- Debounced search functionality
-- Tối ưu re-renders với React.memo
-- Cập nhật state hiệu quả
-
-### Trải Nghiệm Người Dùng
-- Responsive design cho mọi thiết bị
-- Loading states và xử lý lỗi
-- Toast notifications cho phản hồi người dùng
-- Hỗ trợ đa ngôn ngữ
-
-## Liên Hệ
-
-Repository: [dem-react-test](https://github.com/hoanganh-k2/dem-react-test)
-
-## Ghi Chú
-
-Dự án được khởi tạo với [Create React App](https://github.com/facebook/create-react-app).
+Project duoc khoi tao tu Create React App. Hien tai co the deploy frontend truoc voi demo mode, sau do chuyen sang backend that bang cach cap nhat Environment Variables tren Vercel.
