@@ -2,10 +2,8 @@ import {
   BarChart,
   Bar,
   XAxis,
-  YAxis,
   Legend,
   Tooltip,
-  CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
 import "./DashBoard.scss";
@@ -45,7 +43,6 @@ const Dashboard = (props) => {
     }
   };
 
-  console.log(dataOverview);
   return (
     <div className="dashboard-container">
       <div className="title">Analytics Dashboard</div>

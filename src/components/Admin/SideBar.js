@@ -8,26 +8,17 @@ import {
   SidebarFooter,
   SidebarContent,
 } from "react-pro-sidebar";
-
-import {
-  FaTachometerAlt,
-  FaGem,
-  FaList,
-  FaGithub,
-  FaRegLaughWink,
-  FaHeart,
-} from "react-icons/fa";
+import { FaGem } from "react-icons/fa";
 import sidebarBg from "../../assets/bg2.jpg";
-
 import { DiReact } from "react-icons/di";
 import { MdDashboard } from "react-icons/md";
-
 import "./SideBar.scss";
 import { Link, useNavigate } from "react-router-dom";
 
 const SideBar = (props) => {
   const navigate = useNavigate();
-  const { image, collapsed, toggled, handleToggleSidebar } = props;
+  const { collapsed, toggled, handleToggleSidebar } = props;
+
   return (
     <>
       <ProSidebar
@@ -50,7 +41,7 @@ const SideBar = (props) => {
               whiteSpace: "nowrap",
             }}
           >
-            <DiReact size={"3em"} color={"00bfff"} />
+            <DiReact size="3em" color="00bfff" />
             <span onClick={() => navigate("/")}>Hoi Dan IT</span>
           </div>
         </SidebarHeader>
@@ -65,16 +56,16 @@ const SideBar = (props) => {
           <Menu iconShape="circle">
             <SubMenu icon={<FaGem />} title="Features">
               <MenuItem>
-                Quản lý Users
+                Manage Users
                 <Link to="/admins/manage-user"></Link>
               </MenuItem>
               <MenuItem>
                 <Link to="/admins/manage-quizzes"></Link>
-                Quản lý Bài Quiz
+                Manage Quizzes
               </MenuItem>
               <MenuItem>
                 <Link to="/admins/manage-questions"></Link>
-                Quản lý Câu Hỏi
+                Manage Questions
               </MenuItem>
             </SubMenu>
           </Menu>
@@ -100,7 +91,7 @@ const SideBar = (props) => {
                   overflow: "hidden",
                 }}
               >
-                &#169; Hỏi Dân IT Udemy
+                &#169; HoiDanIT Udemy
               </span>
             </a>
           </div>

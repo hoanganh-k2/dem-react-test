@@ -3,6 +3,7 @@ import { getHistory } from "../../services/apiService";
 
 const History = () => {
   const [data, setData] = useState([]);
+
   useEffect(() => {
     fetchHistory();
   }, []);
@@ -10,20 +11,19 @@ const History = () => {
   const fetchHistory = async () => {
     let res = await getHistory();
     if (res && res.EC === 0) {
-      setData(res.DT.data);
+      setData(res?.DT?.data || []);
     }
-    console.log(res);
   };
-  console.log(data);
+
   return (
     <div className="history-container">
       {data &&
         data.length > 0 &&
-        data.map((item, index) => {
+        data.map((item) => {
           return (
-            <div className="data-history">
-              Lần {item.id}: {item.quizHistory.name}, Tổng số câu hỏi{" "}
-              {item.total_questions} - Số câu trả lời đúng {item.total_correct}
+            <div className="data-history" key={item.id}>
+              Lan {item.id}: {item.quizHistory.name}, tong so cau hoi{" "}
+              {item.total_questions} - so cau tra loi dung {item.total_correct}
             </div>
           );
         })}

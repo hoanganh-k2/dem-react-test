@@ -21,8 +21,6 @@ const ModalUpdateUser = (props) => {
     props.resetUpdateData();
   };
 
-  const handleShow = () => setShow(true);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
@@ -40,7 +38,7 @@ const ModalUpdateUser = (props) => {
         setPreviewImage(`data:image/png;base64,${dataUpdate.image}`);
       }
     }
-  }, [props.dataUpdate]);
+  }, [dataUpdate]);
 
   const handleUploadImage = (event) => {
     if (event.target && event.target.value && event.target.files[0]) {
@@ -52,8 +50,6 @@ const ModalUpdateUser = (props) => {
 
   const handleSubmitCreateUser = async () => {
     const data = await putUpdateUser(dataUpdate.id, userName, role, image);
-    console.log(data);
-
     if (data && data.EC === 0) {
       toast.success(data.EM);
       handleClose();
@@ -142,7 +138,7 @@ const ModalUpdateUser = (props) => {
             </div>
             <div className="col-md-12 img-preview">
               {previewImage ? (
-                <img src={previewImage} />
+                <img src={previewImage} alt="User preview" />
               ) : (
                 <span>Preview image</span>
               )}

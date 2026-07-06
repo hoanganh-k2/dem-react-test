@@ -7,12 +7,14 @@ import "./ChangeInformation.scss";
 
 const ChangeInformation = () => {
   const [previewImage, setPreviewImage] = useState("");
+  const [image, setImage] = useState("");
   const [name, setName] = useState("");
 
   const handleUploadImage = (event) => {
     if (event.target && event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       setPreviewImage(URL.createObjectURL(file));
+      setImage(file);
     }
   };
 
@@ -30,7 +32,7 @@ const ChangeInformation = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    let res = await postUpdateProfile(name, previewImage);
+    let res = await postUpdateProfile(name, image);
     if (res && res.EC === 0) {
       toast.success(res.EM);
     } else {
@@ -41,27 +43,27 @@ const ChangeInformation = () => {
   return (
     <form className="edit-infor" onSubmit={(event) => handleSubmit(event)}>
       <div className="mb-3 name">
-        <label class="form-label">User Name:</label>
+        <label className="form-label">User Name:</label>
         <input
           type="text"
-          class="form-control"
+          className="form-control"
           value={name}
           onChange={(event) => setName(event.target.value)}
         />
       </div>
       <div className="mb-3 image">
         <div className="img-preview">
-          <img src={previewImage} />
+          {previewImage ? <img src={previewImage} alt="Preview" /> : null}
           {/* <span>Preview Image</span> */}
         </div>
-        <label class="form-label label-edit" htmlFor="labelEdit">
+        <label className="form-label label-edit" htmlFor="labelEdit">
           <BsPencilSquare /> Edit Image:
         </label>
         <input
           type="file"
           id="labelEdit"
           hidden
-          class="form-control"
+          className="form-control"
           onChange={(event) => handleUploadImage(event)}
         />
       </div>

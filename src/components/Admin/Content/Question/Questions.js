@@ -118,7 +118,6 @@ const Questions = (props) => {
   const handleOnChangeFileQuestion = (questionId, event) => {
     let questionClone = _.cloneDeep(questions);
     let index = questionClone.findIndex((item) => item.id === questionId);
-    console.log(questionId, index, event);
     if (
       index > -1 &&
       event.target &&
@@ -166,7 +165,6 @@ const Questions = (props) => {
   };
 
   const handleSubmitQuestionForQuiz = async () => {
-    //todo
     if (_.isEmpty(selectedQuiz)) {
       toast.error("Not empty quiz");
       return;
@@ -254,7 +252,7 @@ const Questions = (props) => {
           questions.length > 0 &&
           questions.map((question, index) => {
             return (
-              <div key={`q-${index}`} className="q-main mb-3">
+              <div key={question.id} className="q-main mb-3">
                 <div className="question-content">
                   <div className="form-floating description">
                     <input
@@ -320,7 +318,7 @@ const Questions = (props) => {
                   question.answer.length > 0 &&
                   question.answer.map((answer, index) => {
                     return (
-                      <div key={`a-${index}`} className="answers-content">
+                      <div key={answer.id} className="answers-content">
                         <input
                           className="form-check-input iscorrect"
                           type="checkbox"

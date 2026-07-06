@@ -19,21 +19,21 @@ const ChangePassword = (props) => {
   return (
     <form className="edit-infor" onSubmit={(event) => handleSubmit(event)}>
       <div className="mb-3 old-password">
-        <label class="form-label">Password:</label>
+        <label className="form-label">Password:</label>
         <input
-          type="text"
-          class="form-control"
+          type="password"
+          className="form-control"
           value={currentPassword}
           onChange={(event) => setCurrentPassword(event.target.value)}
         />
       </div>
       <div className="mb-3 old-password">
-        <label class="form-label label-edit" htmlFor="labelEdit">
+        <label className="form-label label-edit" htmlFor="labelEdit">
           New Password:
         </label>
         <input
-          type="text"
-          class="form-control"
+          type="password"
+          className="form-control"
           value={newPassword}
           onChange={(event) => setNewPassword(event.target.value)}
         />

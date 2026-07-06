@@ -18,8 +18,6 @@ const ModalCreateUser = (props) => {
     setImage("");
     setPreviewImage("");
   };
-  const handleShow = () => setShow(true);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
@@ -63,8 +61,6 @@ const ModalCreateUser = (props) => {
       role,
       image
     );
-    console.log(data);
-
     if (data && data.EC === 0) {
       toast.success(data.EM);
       handleClose();
@@ -151,7 +147,7 @@ const ModalCreateUser = (props) => {
             </div>
             <div className="col-md-12 img-preview">
               {previewImage ? (
-                <img src={previewImage} />
+                <img src={previewImage} alt="User preview" />
               ) : (
                 <span>Preview image</span>
               )}

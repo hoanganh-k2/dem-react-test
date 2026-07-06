@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { NavLink, useLocation, useParams } from "react-router-dom";
 import { getQuestion, postSubmitQuiz } from "../../services/apiService";
 import _ from "lodash";
@@ -17,13 +17,8 @@ const DetailQuiz = () => {
   const [isShowModalResult, setIsShowModalResult] = useState(false);
   const [dataResult, setDataResult] = useState({});
 
-  useEffect(() => {
-    fetchQuestion();
-  }, [quizId]);
-
-  const fetchQuestion = async () => {
+  const fetchQuestion = useCallback(async () => {
     let res = await getQuestion(quizId);
-    console.log(res);
     if (res && res.EC === 0) {
       let raw = res.DT;
       let data = _.chain(raw)
@@ -48,7 +43,11 @@ const DetailQuiz = () => {
         .value();
       setDataQuiz(data);
     }
-  };
+  }, [quizId]);
+
+  useEffect(() => {
+    fetchQuestion();
+  }, [fetchQuestion]);
 
   const handlePrev = () => {
     if (index < 1) {
@@ -105,7 +104,6 @@ const DetailQuiz = () => {
     }
     payload.answers = answers;
     let res = await postSubmitQuiz(payload);
-    console.log(res);
     if (res && res.EC === 0) {
       setIsShowModalResult(true);
       setDataResult({
@@ -114,7 +112,7 @@ const DetailQuiz = () => {
         quizData: res.DT.quizData,
       });
     } else {
-      alert("Something went wrongs");
+      alert(res?.EM || "Something went wrong");
     }
   };
 
@@ -135,9 +133,6 @@ const DetailQuiz = () => {
             Quiz {quizId} : {location?.state?.quizTitle}
           </div>
           <hr />
-          <div className="q-body">
-            <img />
-          </div>
           <div className="q-content">
             <Question
               handleCheckbox={handleCheckbox}

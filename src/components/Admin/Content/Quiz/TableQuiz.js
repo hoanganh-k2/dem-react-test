@@ -18,7 +18,6 @@ const TableQuiz = () => {
     let res = await getAllQuizForAdmin();
     if (res && res.EC === 0) {
       setListQuiz(res.DT);
-      console.log(res);
     }
   };
 
@@ -39,7 +38,7 @@ const TableQuiz = () => {
   return (
     <>
       <div className="mt-3">List quizzes:</div>
-      <table class="table table-hover table-bordered my-2">
+      <table className="table table-hover table-bordered my-2">
         <thead>
           <tr>
             <th scope="col">Id</th>
@@ -53,7 +52,7 @@ const TableQuiz = () => {
           {listQuiz &&
             listQuiz.map((item, index) => {
               return (
-                <tr key={`table-quiz-${index}`}>
+                <tr key={item.id}>
                   <th scope="row">{item.id}</th>
                   <td>{item.name}</td>
                   <td>{item.description}</td>

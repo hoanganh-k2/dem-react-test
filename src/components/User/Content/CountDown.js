@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const CountDown = (props) => {
+const CountDown = ({ onTimeUp }) => {
   const toHHMMSS = (secs) => {
     const sec_num = parseInt(secs, 10);
     const hours = Math.floor(sec_num / 3600);
@@ -17,7 +17,7 @@ const CountDown = (props) => {
 
   useEffect(() => {
     if (count === 0) {
-      props.onTimeUp();
+      onTimeUp();
     }
     const timer = setInterval(() => {
       setCount(count - 1);
@@ -26,7 +26,7 @@ const CountDown = (props) => {
     return () => {
       clearInterval(timer);
     };
-  }, [count]);
+  }, [count, onTimeUp]);
   return (
     <>
       <div className="count-down">{toHHMMSS(count)}</div>

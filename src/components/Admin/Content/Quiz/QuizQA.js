@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Select from "react-select";
 import { FiPlusCircle } from "react-icons/fi";
 import { FiMinusCircle } from "react-icons/fi";
@@ -44,24 +44,13 @@ const QuizQA = (props) => {
     fetchTableQuiz();
   }, []);
 
-  useEffect(() => {
-    if (selectedQuiz && selectedQuiz.value) {
-      fetchQuizWithQA();
-      console.log(questions);
-    }
-  }, [selectedQuiz]);
-
-  useEffect(() => {
-    console.log("questions state:", questions);
-  }, [questions]);
-
-  function urlToFile(url, filename, mimeType) {
+  const urlToFile = useCallback((url, filename, mimeType) => {
     return fetch(url)
       .then((res) => res.arrayBuffer())
       .then((buf) => new File([buf], filename, { type: mimeType }));
-  }
+  }, []);
 
-  const fetchQuizWithQA = async () => {
+  const fetchQuizWithQA = useCallback(async () => {
     let res = await getQuizWithQA(selectedQuiz.value);
     if (res && res.EC === 0) {
       let newQA = [];
@@ -79,7 +68,13 @@ const QuizQA = (props) => {
       }
       setQuestions(newQA);
     }
-  };
+  }, [selectedQuiz.value, urlToFile]);
+
+  useEffect(() => {
+    if (selectedQuiz && selectedQuiz.value) {
+      fetchQuizWithQA();
+    }
+  }, [fetchQuizWithQA, selectedQuiz]);
 
   const fetchTableQuiz = async () => {
     let res = await getAllQuizForAdmin();
@@ -154,7 +149,6 @@ const QuizQA = (props) => {
   const handleOnChangeFileQuestion = (questionId, event) => {
     let questionClone = _.cloneDeep(questions);
     let index = questionClone.findIndex((item) => item.id === questionId);
-    console.log(questionId, index, event);
     if (
       index > -1 &&
       event.target &&
@@ -202,7 +196,6 @@ const QuizQA = (props) => {
   };
 
   const handleSubmitQuestionForQuiz = async () => {
-    //todo
     if (_.isEmpty(selectedQuiz)) {
       toast.error("Not empty quiz");
       return;
@@ -230,6 +223,7 @@ const QuizQA = (props) => {
       toast.error(
         `Not empty description answer ${indexA + 1} at ${indexQ + 1}`
       );
+      return;
     }
 
     //validate question
@@ -245,6 +239,7 @@ const QuizQA = (props) => {
 
     if (isValidQ === false) {
       toast.error(`Not empty description question ${indexQ1 + 1}`);
+      return;
     }
 
     let questionClone = _.cloneDeep(questions);
@@ -292,7 +287,7 @@ const QuizQA = (props) => {
           questions.length > 0 &&
           questions.map((question, index) => {
             return (
-              <div key={`q-${index}`} className="q-main mb-3">
+              <div key={question.id} className="q-main mb-3">
                 <div className="question-content">
                   <div className="form-floating description">
                     <input
@@ -358,7 +353,7 @@ const QuizQA = (props) => {
                   question.answers.length > 0 &&
                   question.answers.map((answer, index) => {
                     return (
-                      <div key={`a-${index}`} className="answers-content">
+                      <div key={answer.id} className="answers-content">
                         <input
                           className="form-check-input iscorrect"
                           type="checkbox"

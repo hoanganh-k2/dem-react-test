@@ -1,7 +1,6 @@
 import ModalCreateUser from "./ModalCreateUser";
-import TableUser from "./TableUser";
-import { useEffect, useState } from "react";
-import { getAllUsers, getUserPaginate } from "../../../services/apiService";
+import { useCallback, useEffect, useState } from "react";
+import { getUserPaginate } from "../../../services/apiService";
 import ModalUpdateUser from "./ModalUpdateUser";
 import ModalViewUser from "./ModalViewUser";
 import ModalDeleteUser from "./ModalDeleteUser";
@@ -21,25 +20,17 @@ const ManageUser = (props) => {
 
   const [listUsers, setListUsers] = useState([]);
 
-  useEffect(() => {
-    fetchListUserPaginate(currentPage);
-  }, []);
-
-  const fetchListUser = async () => {
-    let res = await getAllUsers();
-    if (res.EC === 0) {
-      setListUsers(res.DT);
-    }
-  };
-
-  const fetchListUserPaginate = async (page) => {
+  const fetchListUserPaginate = useCallback(async (page) => {
     let res = await getUserPaginate(page, LIMIT_USER);
     if (res.EC === 0) {
-      console.log(res);
       setListUsers(res.DT.users);
       setPageCount(res.DT.totalPages);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchListUserPaginate(currentPage);
+  }, [currentPage, fetchListUserPaginate]);
 
   const handleClickBtnUpdate = (item) => {
     setShowModalUpdateUser(true);

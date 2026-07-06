@@ -3,7 +3,7 @@ import NProgress from "nprogress";
 import { store } from "../redux/store";
 
 const instance = axios.create({
-  baseURL: "http://localhost:8081/",
+  baseURL: process.env.REACT_APP_API_URL || "http://localhost:8081/",
 });
 
 NProgress.configure({
@@ -15,7 +15,9 @@ NProgress.configure({
 instance.interceptors.request.use(
   function (config) {
     const access_token = store?.getState()?.user?.account?.access_token;
-    config.headers["Authorization"] = "Bearer " + access_token;
+    if (access_token) {
+      config.headers.Authorization = `Bearer ${access_token}`;
+    }
     NProgress.start();
     // Do something before request is sent
     return config;
@@ -36,7 +38,7 @@ instance.interceptors.response.use(
   },
   function (error) {
     NProgress.done();
-    if (error.response.data && error.response.data === -999) {
+    if (error?.response?.data && error.response.data === -999) {
       window.location.href = "/login";
     }
     // Any status codes that falls outside the range of 2xx cause this function to trigger

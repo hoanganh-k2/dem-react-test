@@ -11,7 +11,6 @@ const ListQuiz = () => {
   }, []);
   const getQuizData = async () => {
     let res = await getListQuiz();
-    console.log(res);
     if (res && res.EC === 0) {
       setArrQuiz(res.DT);
     }
@@ -24,14 +23,14 @@ const ListQuiz = () => {
         arrQuiz.map((quiz, index) => {
           return (
             <div
-              key={`${index}-quizquiz`}
+              key={quiz.id}
               className="card"
               style={{ width: "18rem" }}
             >
               <img
                 src={`data:image/png;base64,${quiz.image}`}
                 className="card-img-top"
-                alt="..."
+                alt={quiz.description || `Quiz ${index + 1}`}
               />
               <div className="card-body">
                 <h5 className="card-title">Quiz {index + 1}</h5>

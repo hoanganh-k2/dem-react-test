@@ -1,10 +1,7 @@
 import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { FcPlus } from "react-icons/fc";
 import "./ManageUser.scss";
-import { toast } from "react-toastify";
-import { putUpdateUser } from "../../../services/apiService";
 import _ from "lodash";
 
 const ModalViewUser = (props) => {
@@ -16,18 +13,14 @@ const ModalViewUser = (props) => {
     setPassword("");
     setUserName("");
     setRole("");
-    setImage("");
     setPreviewImage("");
     props.resetUpdateData();
   };
-
-  const handleShow = () => setShow(true);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
   const [role, setRole] = useState("USER");
-  const [image, setImage] = useState("");
   const [previewImage, setPreviewImage] = useState("");
 
   useEffect(() => {
@@ -35,35 +28,11 @@ const ModalViewUser = (props) => {
       setEmail(dataUpdate.email);
       setUserName(dataUpdate.username);
       setRole(dataUpdate.role);
-      setImage("");
       if (dataUpdate.image) {
         setPreviewImage(`data:image/png;base64,${dataUpdate.image}`);
       }
     }
-  }, [props.dataUpdate]);
-
-  const handleUploadImage = (event) => {
-    if (event.target && event.target.value && event.target.files[0]) {
-      setPreviewImage(URL.createObjectURL(event.target.files[0]));
-      setImage(event.target.files[0]);
-    } else {
-    }
-  };
-
-  //   const handleSubmitCreateUser = async () => {
-  //     const data = await putUpdateUser(dataUpdate.id, userName, role, image);
-  //     console.log(data);
-
-  //     if (data && data.EC === 0) {
-  //       toast.success(data.EM);
-  //       handleClose();
-  //       await props.fetchListUser();
-  //     }
-
-  //     if (data && data.EC !== 0) {
-  //       toast.error(data.EM);
-  //     }
-  //   };
+  }, [dataUpdate]);
 
   return (
     <>
@@ -109,6 +78,7 @@ const ModalViewUser = (props) => {
                 type="text"
                 className="form-control"
                 value={userName}
+                disabled
                 onChange={(event) => {
                   setUserName(event.target.value);
                 }}
@@ -120,6 +90,7 @@ const ModalViewUser = (props) => {
                 id="inputState"
                 className="form-select"
                 value={role}
+                disabled
                 onChange={(event) => {
                   setRole(event.target.value);
                 }}
@@ -128,20 +99,9 @@ const ModalViewUser = (props) => {
                 <option value="ADMIN">ADMIN</option>
               </select>
             </div>
-            <div className="col-md-12">
-              <label className="form-label label-upload" htmlFor="labelUpload">
-                <FcPlus /> Upload image
-              </label>
-              <input
-                type="file"
-                hidden
-                id="labelUpload"
-                onChange={(event) => handleUploadImage(event)}
-              ></input>
-            </div>
             <div className="col-md-12 img-preview">
               {previewImage ? (
-                <img src={previewImage} />
+                <img src={previewImage} alt="User avatar" />
               ) : (
                 <span>Preview image</span>
               )}

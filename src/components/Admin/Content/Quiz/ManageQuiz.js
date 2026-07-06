@@ -15,9 +15,9 @@ const options = [
 ];
 
 const ManageQuiz = () => {
-  const [name, setName] = useState();
-  const [description, setDescription] = useState();
-  const [type, setType] = useState();
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [type, setType] = useState("");
   const [image, setImage] = useState(null);
 
   const handleChangFile = (event) => {
@@ -28,8 +28,8 @@ const ManageQuiz = () => {
 
   const handleSubmitQuiz = async () => {
     //validate
-    if (!name || !description) {
-      toast.error("Name/Description is required");
+    if (!name || !description || !type) {
+      toast.error("Name, description and quiz type are required");
       return;
     }
 
@@ -38,6 +38,7 @@ const ManageQuiz = () => {
       toast.success(res.EM);
       setName("");
       setDescription("");
+      setType("");
       setImage(null);
     } else {
       toast.error(res.EM);
@@ -51,22 +52,22 @@ const ManageQuiz = () => {
           <Accordion.Header>Manage Quizzes</Accordion.Header>
           <Accordion.Body>
             <div className="quiz-content">
-              <fieldset class="border rounded-3 p-3">
-                <legend class="float-none w-auto px-3">Add new Quiz:</legend>
-                <div class="form-floating mb-3">
+              <fieldset className="border rounded-3 p-3">
+                <legend className="float-none w-auto px-3">Add new Quiz:</legend>
+                <div className="form-floating mb-3">
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Name"
                     value={name}
                     onChange={(event) => setName(event.target.value)}
                   />
                   <label>Name</label>
                 </div>
-                <div class="form-floating">
+                <div className="form-floating">
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Description"
                     value={description}
                     onChange={(event) => setDescription(event.target.value)}

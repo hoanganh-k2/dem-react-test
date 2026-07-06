@@ -21,6 +21,7 @@ const Question = (props) => {
             style={{ cursor: "pointer" }}
             onClick={() => setIsPreviewImage(true)}
             src={`data:image/png;base64,${data.image}`}
+            alt={`Question ${index + 1}`}
           />
           {isPreviewImage === true && (
             <Lightbox
@@ -39,9 +40,9 @@ const Question = (props) => {
       <div className="answer">
         {data.answers &&
           data.answers.length &&
-          data.answers.map((a, index) => {
+          data.answers.map((a) => {
             return (
-              <div key={`answer-${index}`} className="a-child">
+              <div key={a.id} className="a-child">
                 <div className="form-check">
                   <input
                     className="form-check-input"

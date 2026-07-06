@@ -6,7 +6,6 @@ const TableUserPaginate = (props) => {
   const handlePageClick = (event) => {
     props.fetchListUserPaginate(+event.selected + 1);
     props.setCurrentPage(+event.selected + 1);
-    console.log(`User requested page number ${event.selected}`);
   };
 
   return (
@@ -27,7 +26,7 @@ const TableUserPaginate = (props) => {
             listUsers.map((item, index) => {
               return (
                 <tr key={`table-user-${index}`}>
-                  <td scope="row">{item.id}</td>
+                  <td>{item.id}</td>
                   <td>{item.username}</td>
                   <td>{item.email}</td>
                   <td>{item.role}</td>
@@ -62,7 +61,7 @@ const TableUserPaginate = (props) => {
             })}
           {listUsers && listUsers.length === 0 && (
             <tr>
-              <td colSpan={"4"}>Not found user </td>
+              <td colSpan={5}>Not found user</td>
             </tr>
           )}
         </tbody>

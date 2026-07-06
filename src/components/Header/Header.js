@@ -15,19 +15,20 @@ const Header = () => {
   const [showModalProfile, setShowModalProfile] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleLogin = () => {
-    navigate("/login");
-  };
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const account = useSelector((state) => state.user.account);
 
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
   const handleLogOut = async () => {
-    let res = await logOut("account.email", account.refresh_token);
+    let res = await logOut(account.email, account.refresh_token);
     if (res && res.EC === 0) {
       dispatch(doLogOut());
       navigate("/login");
     } else {
-      toast.error(res.EM);
+      toast.error(res?.EM || "Logout failed");
     }
   };
 
@@ -39,9 +40,8 @@ const Header = () => {
     <>
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container>
-          {/* <Navbar.Brand href="#home">Hỏi dân IT</Navbar.Brand> */}
           <NavLink to="/" className="navbar-brand">
-            Hỏi dân IT
+            HoiDanIT
           </NavLink>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -59,10 +59,10 @@ const Header = () => {
             <Nav>
               {isAuthenticated === false ? (
                 <>
-                  <button className="btn-login" onClick={() => handleLogin()}>
+                  <button className="btn-login" onClick={handleLogin}>
                     Log in
                   </button>
-                  <button className="btn-signup" onClick={() => handleSignUp()}>
+                  <button className="btn-signup" onClick={handleSignUp}>
                     Sign up
                   </button>
                 </>
@@ -71,7 +71,7 @@ const Header = () => {
                   <NavDropdown.Item onClick={() => setShowModalProfile(true)}>
                     Profile
                   </NavDropdown.Item>
-                  <NavDropdown.Item onClick={() => handleLogOut()}>
+                  <NavDropdown.Item onClick={handleLogOut}>
                     Log Out
                   </NavDropdown.Item>
                 </NavDropdown>

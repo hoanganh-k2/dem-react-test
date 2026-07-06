@@ -26,8 +26,6 @@ const ModalUpdateQuiz = (props) => {
     props.resetUpdateData();
   };
 
-  const handleShow = () => setShow(true);
-
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [type, setType] = useState("");
@@ -62,8 +60,6 @@ const ModalUpdateQuiz = (props) => {
       type,
       image
     );
-    console.log(data);
-
     if (data && data.EC === 0) {
       toast.success(data.EM);
       handleClose();
@@ -132,7 +128,7 @@ const ModalUpdateQuiz = (props) => {
             </div>
             <div className="col-md-12 img-preview">
               {previewImage ? (
-                <img src={previewImage} />
+                <img src={previewImage} alt="Quiz preview" />
               ) : (
                 <span>Preview image</span>
               )}

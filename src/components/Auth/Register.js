@@ -15,7 +15,6 @@ const Register = () => {
 
   const handleRegister = async () => {
     let data = await postRegister(email, username, password);
-    console.log(data);
 
     if (data && data.EC === 0) {
       toast.success(data.EM);
