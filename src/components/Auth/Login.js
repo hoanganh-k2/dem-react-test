@@ -71,7 +71,7 @@ const Login = () => {
         </button>
         <Language />
       </div>
-      <div className="title col-4 mx-auto">HoiDanIT</div>
+      <div className="title col-4 mx-auto">Quizz App</div>
       <div className="welcome col-4 mx-auto">
         {isDemoMode ? "Demo mode is ready" : "Hello, who's this ?"}
       </div>

@@ -38,7 +38,7 @@ const Register = () => {
         </button>
         <Language />
       </div>
-      <div className="title col-4 mx-auto">HoiDanIT</div>
+      <div className="title col-4 mx-auto">Quizz App</div>
       <div className="welcome col-4 mx-auto">Start your journey?</div>
       <div className="content-form col-4 mx-auto">
         <div className="form-group">

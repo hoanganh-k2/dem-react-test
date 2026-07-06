@@ -42,7 +42,7 @@ const SideBar = (props) => {
             }}
           >
             <DiReact size="3em" color="00bfff" />
-            <span onClick={() => navigate("/")}>Hoi Dan IT</span>
+            <span onClick={() => navigate("/")}>Quizz App</span>
           </div>
         </SidebarHeader>
 
@@ -79,7 +79,7 @@ const SideBar = (props) => {
             }}
           >
             <a
-              href="https://haryphamdev.github.io/hoidanit-udemy/"
+              href="/"
               target="_blank"
               className="sidebar-btn"
               rel="noopener noreferrer"
@@ -91,7 +91,7 @@ const SideBar = (props) => {
                   overflow: "hidden",
                 }}
               >
-                &#169; HoiDanIT Udemy
+                &#169; Quizz App
               </span>
             </a>
           </div>
